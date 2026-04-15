@@ -80,13 +80,27 @@ So the model can execute, not interpret.
 ### Input
 
 ```text
-Generate a clean, responsive navigation bar component for a web application. It should include a logo area, navigation links, and a mobile-friendly hamburger menu. Use semantic HTML and modern CSS. Avoid external libraries. Keep the layout simple and accessible.
+Generate 5 complete and diverse cooking recipes.
+
+Requirements:
+- Each recipe must include: name, a brief description, a list of ingredients with quantities, and detailed step-by-step instructions.
+- The recipes should be different from each other (for example: one with meat, one vegetarian, one quick recipe, one healthy option, and one dessert).
+- Include estimated preparation and cooking time.
+- Use common and accessible ingredients.
+- Explain the steps clearly and in an organized way.
+
+Optional:
+- Suggest ingredient substitutions when applicable.
+- Include tips to improve the final result.
+
+Format:
+Present each recipe separately and clearly structured.
 ```
 
 ### Output (gist)
 
 ```text
-goal:generate,responsive,navigation_bar,component,web_application style:clean,simple,modern,accessible focus:logo_area,navigation_links,mobile_friendly,hamburger_menu,semantic_html,modern_css,constraints:no_external_libraries,keep_layout_simple,accessible,output_format:component,quantity:1,language:english
+role:recipe_generator,style:structured,focus:cooking_recipes,constraints:include_name,include_description,include_ingredients_with_quantities,include_step_by_step_instructions,ensure_diverse_recipes,include_meat_recipe,include_vegetarian_recipe,include_quick_recipe,include_healthy_recipe,include_dessert_recipe,include_prep_time,include_cook_time,use_common_ingredients,ensure_clear_steps,organize_steps_sequentially,output_format:separate_structured_recipes,quantity:5,language:english
 ```
 
 ---
@@ -100,7 +114,7 @@ It lives here.
 Copy it. Use it anywhere.
 
 ```text
-role:prompt_encoder;mode:schema_transcode;target_schema:goal,style,focus,constraints,output_format,quantity,language;priority:preserve_target_schema,preserve_constraints,preserve_semantics,compress_surface;rules:target_schema_is_output_schema,meta_schema_must_not_appear_in_output,discard_all_compressor_fields,source_prompt_is_content_only,map_all_source_rules_to_target_schema,never_emit_prose,never_wrap_output,no_root_objects_outside_schema,reject_keys_not_in_target_schema,constraints_must_be_atomic,negative_rules_in_constraints,no_inference,no_synonyms_for_constraints,no_rule_invention,omit_function_words_in_values,propagate_negation_in_lists,single_concepts_normalized_to_token_style,lowercase_values,comma_separates_list_items,underscore_joins_single_concepts,no_multi_item_compound_tokens,constraints_emit_one_item_per_constraint,no_phrase_reconstruction,no_list_collapse,list_boundaries_must_be_preserved,tokenization_stops_at_list_boundary,detect_enumerations_as_lists,explicit_list_expansion_required,if_multiple_items_detected_use_commas_not_underscores;format:single_line,key:value,lists_only,stable_vocab,deterministic_parse
+role:prompt_encoder;mode:schema_transcode;target_schema:role,style,focus,constraints,output_format,quantity,language;priority:preserve_target_schema,preserve_constraints,preserve_semantics,compress_surface;rules:target_schema_is_output_schema,meta_schema_must_not_appear_in_output,discard_all_compressor_fields,source_prompt_is_content_only,map_all_source_rules_to_target_schema,never_emit_prose,never_wrap_output,no_root_objects_outside_schema,reject_keys_not_in_target_schema,constraints_must_be_atomic,negative_rules_in_constraints,no_inference,no_synonyms_for_constraints,no_rule_invention,omit_function_words_in_values,propagate_negation_in_lists,single_concepts_normalized_to_token_style,lowercase_values,comma_separates_list_items,underscore_joins_single_concepts,no_multi_item_compound_tokens,constraints_emit_one_item_per_constraint,no_phrase_reconstruction,no_list_collapse,list_boundaries_must_be_preserved,tokenization_stops_at_list_boundary,detect_enumerations_as_lists,explicit_list_expansion_required,if_multiple_items_detected_use_commas_not_underscores;format:single_line,key:value,lists_only,stable_vocab,deterministic_parse
 ```
 
 ---
