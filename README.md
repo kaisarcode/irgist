@@ -28,13 +28,13 @@ In practice, this means:
 
 Instead of writing prompts like this:
 
-```text id="raw_ex"
+```text
 long, verbose, repetitive instructions...
 ```
 
 You get this:
 
-```text id="gist_ex"
+```text
 short, structured, execution-ready gist
 ```
 
@@ -43,57 +43,23 @@ it makes them easier for models to follow.
 
 ---
 
-## Quick Start
+## Encoder Prompt
 
-IRGist works in two simple steps.
+The encoder is just a prompt.
 
-### Step 1 — Convert your prompt into a gist
+Copy it. Use it anywhere.
 
-First, copy the encoder prompt:
-
-```text id="enc_main"
+```text
 role:prompt_encoder;mode:schema_transcode;target_schema:role,style,focus,constraints,output_format,quantity,language;priority:preserve_target_schema,preserve_constraints,preserve_semantics,compress_surface;rules:target_schema_is_output_schema,meta_schema_must_not_appear_in_output,discard_all_compressor_fields,source_prompt_is_content_only,map_all_source_rules_to_target_schema,never_emit_prose,never_wrap_output,no_root_objects_outside_schema,reject_keys_not_in_target_schema,constraints_must_be_atomic,negative_rules_in_constraints,no_inference,no_synonyms_for_constraints,no_rule_invention,omit_function_words_in_values,propagate_negation_in_lists,single_concepts_normalized_to_token_style,lowercase_values,comma_separates_list_items,underscore_joins_single_concepts,no_multi_item_compound_tokens,constraints_emit_one_item_per_constraint,no_phrase_reconstruction,no_list_collapse,list_boundaries_must_be_preserved,tokenization_stops_at_list_boundary,detect_enumerations_as_lists,explicit_list_expansion_required,if_multiple_items_detected_use_commas_not_underscores;format:single_line,key:value,lists_only,stable_vocab,deterministic_parse
-```
-
-Then paste it into an AI chat, followed by your prompt like this:
-
-```text id="enc_usage_main"
-[PASTE ENCODER ABOVE]
-
-Encode this prompt:
-
-[YOUR PROMPT HERE]
-```
-
-The model will return a structured **gist**.
-
----
-
-### Step 2 — Use the gist
-
-Copy the generated gist and use it as your new prompt in any model or tool.
-
----
-
-In short:
-
-```text id="flow_main"
-your prompt → IRGist → gist → model → output
 ```
 
 ---
 
 ## Example
 
-### Encoder
+Copy, paste, and run this in an AI chat:
 
-```text id="enc_example_full"
-role:prompt_encoder;mode:schema_transcode;target_schema:role,style,focus,constraints,output_format,quantity,language;priority:preserve_target_schema,preserve_constraints,preserve_semantics,compress_surface;rules:target_schema_is_output_schema,meta_schema_must_not_appear_in_output,discard_all_compressor_fields,source_prompt_is_content_only,map_all_source_rules_to_target_schema,never_emit_prose,never_wrap_output,no_root_objects_outside_schema,reject_keys_not_in_target_schema,constraints_must_be_atomic,negative_rules_in_constraints,no_inference,no_synonyms_for_constraints,no_rule_invention,omit_function_words_in_values,propagate_negation_in_lists,single_concepts_normalized_to_token_style,lowercase_values,comma_separates_list_items,underscore_joins_single_concepts,no_multi_item_compound_tokens,constraints_emit_one_item_per_constraint,no_phrase_reconstruction,no_list_collapse,list_boundaries_must_be_preserved,tokenization_stops_at_list_boundary,detect_enumerations_as_lists,explicit_list_expansion_required,if_multiple_items_detected_use_commas_not_underscores;format:single_line,key:value,lists_only,stable_vocab,deterministic_parse
-```
-
-### Input
-
-```text id="enc_input_full"
+```text
 [PASTE ENCODER ABOVE]
 
 Encode this prompt:
@@ -117,20 +83,8 @@ Present each recipe separately and clearly structured.
 
 ### Output (gist)
 
-```text id="enc_output_full"
+```text
 role:recipe_generator,style:structured,focus:cooking_recipes,constraints:include_name,include_description,include_ingredients_with_quantities,include_step_by_step_instructions,ensure_diverse_recipes,include_meat_recipe,include_vegetarian_recipe,include_quick_recipe,include_healthy_recipe,include_dessert_recipe,include_prep_time,include_cook_time,use_common_ingredients,ensure_clear_steps,organize_steps_sequentially,output_format:separate_structured_recipes,quantity:5,language:english
-```
-
----
-
-## Typical flow
-
-```text id="flow_block"
-human input
-  → IRGist
-  → execution gist
-  → domain tool / small model
-  → output
 ```
 
 ---
@@ -166,54 +120,25 @@ This is a **bounded-domain prompt IR encoder**.
 
 ---
 
-## What is a “gist”?
-
-A gist is a short, execution-ready prompt that contains:
-
-* goal
-* style
-* focus
-* constraints
-* output format
-
-It is:
-
-* not conversational
-* not verbose
-* not strictly formal
-
-Just enough structure to be clear and portable.
-
----
-
 ## Structural Flexibility
 
 IRGist does not require strict syntactic correctness.
 
-Gists follow a consistent structural pattern, but minor variations such as:
-
-* extra separators
-* slight formatting differences
-* tokenization inconsistencies
-
-do not affect execution.
-
 The system prioritizes **semantic density and clarity** over rigid structure.
 
-This is not a parser or strict DSL. It is a **constraint-oriented representation**
-optimized to reduce cognitive load for the model.
+Minor variations in formatting do not affect execution.
+
+This is not a parser. It is a representation optimized for LLMs.
 
 ---
 
 ## Why this matters
 
-Small/local models struggle with:
+Execution gists reduce:
 
-* long prompts
-* implicit constraints
-* inconsistent phrasing
-
-Execution gists reduce that burden by making everything explicit.
+* ambiguity
+* prompt length
+* cognitive load on the model
 
 Result:
 
@@ -227,20 +152,13 @@ Result:
 
 IRGist is not a compression system.
 
-However, by removing linguistic redundancy and enforcing a canonical
-constraint structure, it consistently reduces prompt size in practice.
-
-Observed token savings:
+However, it consistently reduces prompt size in practice:
 
 * short prompts: ~20–30%
 * medium prompts: ~25–40%
-* large structured instructions: ~40–60%
+* large prompts: ~40–60%
 
-This reduction applies only to the input prompt.
-
-IRGist does not optimize or compress model outputs.
-
-Token efficiency scales with the redundancy of the original prompt.
+This applies only to input prompts.
 
 ---
 
