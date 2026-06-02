@@ -1,205 +1,118 @@
 # IRGist
 
-Lightweight **Intermediate Representation (IR) encoder** for domain-specific LLM tools.
+IRGist is a semantic IR compressor for LLM context reuse.
 
-Transforms natural-language instructions into compact, structured **execution gists** that are portable, predictable, and easy for small models to run.
+It converts arbitrary text into dense one-line semantic memory records. The goal is strong token reduction while preserving the information another model needs to reason, answer, explain, or continue work without loading the full source again.
 
----
+IRGist 2.0 is not limited to prompts. It can compress instructions, documentation, stories, specifications, chat history, project notes, and agent memory.
 
-## What you get
+## What It Does
 
-IRGist turns your prompts into something easier for models to understand and execute.
+IRGist preserves meaning-critical information and removes low-value surface form.
 
-Instead of long, messy instructions, you get a **compact and structured artifact** that is:
+It keeps:
 
-* **Portable** → works across different models and tools
-* **Dense** → more meaning with fewer tokens
-* **Clear** → removes ambiguity and guesswork
-* **Consistent** → produces more predictable results
-
-In practice, this means:
-
-* faster processing in LLMs
-* fewer mistakes
-* more stable outputs
-* smaller prompts (often 25–50% shorter)
-
----
-
-Instead of writing prompts like this:
-
-```text
-long, verbose, repetitive instructions...
-```
-
-You get this:
-
-```text
-short, structured, execution-ready gist
-```
-
-IRGist doesn’t just shorten prompts —
-it makes them easier for models to follow.
-
----
-
-## Encoder Prompt
-
-The encoder is just a prompt.
-
-Copy it. Use it anywhere.
-
-```text
-role:prompt_encoder;mode:schema_transcode;target_schema:role,style,focus,constraints,output_format,quantity,language;priority:preserve_target_schema,preserve_constraints,preserve_semantics,compress_surface;rules:target_schema_is_output_schema,meta_schema_must_not_appear_in_output,discard_all_compressor_fields,source_prompt_is_content_only,map_all_source_rules_to_target_schema,never_emit_prose,never_wrap_output,no_root_objects_outside_schema,reject_keys_not_in_target_schema,constraints_must_be_atomic,negative_rules_in_constraints,no_inference,no_synonyms_for_constraints,no_rule_invention,omit_function_words_in_values,propagate_negation_in_lists,single_concepts_normalized_to_token_style,lowercase_values,comma_separates_list_items,underscore_joins_single_concepts,no_multi_item_compound_tokens,constraints_emit_one_item_per_constraint,no_phrase_reconstruction,no_list_collapse,list_boundaries_must_be_preserved,tokenization_stops_at_list_boundary,detect_enumerations_as_lists,explicit_list_expansion_required,if_multiple_items_detected_use_commas_not_underscores;format:single_line,key:value,lists_only,stable_vocab,deterministic_parse
-```
-
----
-
-## Example
-
-Copy, paste, and run this in an AI chat:
-
-```text
-[PASTE ENCODER ABOVE]
-
-Encode this prompt:
-
-Generate 5 complete and diverse cooking recipes.
-
-Requirements:
-- Each recipe must include: name, a brief description, a list of ingredients with quantities, and detailed step-by-step instructions.
-- The recipes should be different from each other (for example: one with meat, one vegetarian, one quick recipe, one healthy option, and one dessert).
-- Include estimated preparation and cooking time.
-- Use common and accessible ingredients.
-- Explain the steps clearly and in an organized way.
-
-Optional:
-- Suggest ingredient substitutions when applicable.
-- Include tips to improve the final result.
-
-Format:
-Present each recipe separately and clearly structured.
-```
-
-### Output (gist)
-
-```text
-role:recipe_generator,style:structured,focus:cooking_recipes,constraints:include_name,include_description,include_ingredients_with_quantities,include_step_by_step_instructions,ensure_diverse_recipes,include_meat_recipe,include_vegetarian_recipe,include_quick_recipe,include_healthy_recipe,include_dessert_recipe,include_prep_time,include_cook_time,use_common_ingredients,ensure_clear_steps,organize_steps_sequentially,output_format:separate_structured_recipes,quantity:5,language:english
-```
-
----
-
-## What this is
-
-IRGist converts human prompts into a minimal IR of intent.
+* main entities
+* claims and decisions
+* constraints and permissions
+* negations and limits
+* examples needed to avoid wrong generalization
+* paths, URLs, IDs, filenames, symbols, acronyms, and license identifiers
+* recoverable facts that can change future answers
 
 It removes:
 
-* verbosity
-* ambiguity
-* redundant phrasing
+* filler
+* repetition
+* politeness
+* rhetoric
+* surface style
+* redundant supporting detail
+* low-value examples
+* explanation that does not change future use
 
-And produces a **gist**:
+The output is a compact semantic record, not a reconstruction format.
 
-* small
-* structured (but not rigid)
-* directly usable by another model or tool
+## Prompt
 
-The output acts as a canonical representation of intent.
+The compressor is just a prompt. Copy it from [`irgist.gist`](irgist.gist) and use it anywhere.
 
----
+```text
+type:instruction;memory:compress_any_input_block_into_dense_one_line_semantic_memory_record,goal_is_strong_token_reduction_for_llm_context_reuse,write_generic_content_in_compact_english_to_reduce_tokens,preserve_original_language_only_for_titles_names_paths_urls_ids_code_symbols_acronyms_license_ids_and_literal_terms,maximize_information_density,preserve_information_that_changes_future_answers,keep_main_entities_claims_decisions_constraints_negations_limits_examples_paths_permissions_and_recoverable_facts,remove_filler_repetition_politeness_rhetoric_surface_style_low_value_examples_explanations_and_redundant_supporting_detail,collapse_equivalent_or_close_ideas,prefer_short_clear_phrasing_over_full_nuance,default_target_75_to_85_percent_token_reduction_when_core_information_survives;rules:compress_only_input_content,return_one_line_record_only,no_preamble,no_explanations,no_markdown,use_minimal_schema_type_content_rules,type_required,content_required,rules_optional_only_when_source_has_explicit_permissions_prohibitions_or_operational_constraints,omit_rules_otherwise,do_not_copy_compressor_instructions_into_output,do_not_invent_facts_entities_dates_examples_categories_or_conclusions,preserve_paths_urls_ids_filenames_and_license_ids_exactly,preserve_critical_negation_and_limits,preserve_examples_when_needed_to_prevent_wrong_generalization,drop_or_generalize_lists_unless_items_are_core_or_short_and_high_value,merge_motivations_causes_and_context_when_meaning_survives,keep_decisions_and_reasoning_outcomes_not_full_reasoning,expand_license_terms_only_when_short_or_operationally_needed,favor_compression_over_exhaustive_recoverability,no_merge_of_non_equivalent_core_ideas
+```
 
-## What this is NOT
+## Output Format
 
-* not a general text compressor
-* not reversible (not a ZIP)
-* not a strict schema or DSL
-* not designed for long-context or arbitrary text
+IRGist emits one line using a minimal schema:
 
-This is a **bounded-domain prompt IR encoder**.
+```text
+type:<source_kind>;content:<dense_semantic_record>;rules:<optional_constraints>
+```
 
----
+`type` identifies the source kind. `content` contains the compressed semantic memory. `rules` is optional and should appear only when the source contains explicit permissions, prohibitions, or operational constraints.
 
-## Structural Flexibility
+## Example
 
-IRGist does not require strict syntactic correctness.
+Source text can be long, literary, technical, or operational. IRGist does not try to preserve the full wording. It preserves the information needed for later use.
 
-The system prioritizes **semantic density and clarity** over rigid structure.
+Example compression result for a literary story:
 
-Minor variations in formatting do not affect execution.
+```text
+type:microrrelato;content:"Los ojos":narrador viaja en subte/metro durante rutina alienante, describe vagón aglomerado como suspensión celular/ciudad-máquina; desea inconsciencia y liberación de un Dios oculto; percibe a un niño de ojos celestes desmesurados aterrorizado mirando por la primera ventana hacia los rieles; nadie más lo nota porque pasajeros están absorbidos por pantallas/publicidad/noticias/recuerdos electrónicos; narrador teme y vuelve a mirar, ve en el niño apocalipsis/destrucción/muerte; al girar hacia el túnel, los rieles se transfiguran en serpientes y aparece el reflejo de otra formación que invade/confunde los rieles, convertido en visión mítica de una colosal KUR con escamas/fauces; se oyen gritos de los ya muertos mientras el niño sigue despierto y el narrador queda atrapado en la visión del miedo; final: "¡Este... es el final del trayecto!"
+```
 
-This is not a parser. It is a representation optimized for LLMs.
+That record is not the story. It is a dense semantic substitute for context reuse. Another model can still explain the narrative structure, symbols, entities, conflict, and ending without receiving the full original text.
 
----
+In practice, this kind of record can reduce a source from about 1,261 tokens to about 253 tokens while keeping the core semantics available for later reasoning.
 
-## Why this matters
+## Use Cases
 
-Execution gists reduce:
+IRGist is useful when text must survive across prompts, sessions, tools, or agents with lower context cost.
 
-* ambiguity
-* prompt length
-* cognitive load on the model
+Common uses:
 
-Result:
+* context bootstrap compression
+* agent instruction compression
+* project documentation memory
+* technical specification condensation
+* chat history handoff
+* literary or essay semantic retention
+* prompt and task memory
+* reusable notes for small models
 
-* faster responses
-* fewer mistakes
-* more consistent outputs
+Operational instruction sets are a strong use case. A large agent bootstrap can be compressed into a much smaller semantic record while preserving the rules that affect future behavior.
 
----
+## What This Is Not
 
-## Token Efficiency
+IRGist is not reversible compression. It is not a ZIP file, archive, or exact reconstruction format.
 
-IRGist is not a compression system.
+IRGist is not a traditional summary. A summary explains what text is about. An IRGist record preserves what another model needs to reuse the text later.
 
-However, it consistently reduces prompt size in practice:
+IRGist is not a strict parser or formal DSL. The format is intentionally simple because the target runtime is an LLM, not a rigid compiler.
 
-* short prompts: ~20–30%
-* medium prompts: ~25–40%
-* large prompts: ~40–60%
+## Design Principles
 
-This applies only to input prompts.
+* preserve useful meaning, not wording
+* maximize semantic density
+* reduce token cost aggressively
+* preserve facts that change future answers
+* preserve exact literals when exactness matters
+* avoid invented facts, categories, or conclusions
+* prefer compact clarity over exhaustive nuance
+* keep one-line records for easy copy, storage, and reuse
 
----
+## Version 2.0
 
-## Design principles
+IRGist 1.x encoded natural-language instructions into compact execution gists.
 
-* preserve behavior, not wording
-* no inference
-* no rule invention
-* constraints must be explicit
-* structure over prose
-* minimal but sufficient
+IRGist 2.0 generalizes the project into semantic compression for arbitrary text. Prompts are now one supported input type, not the whole scope.
 
----
+## License
 
-## Positioning
+IRGist is released under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html).
 
-IRGist is:
+Author: KaisarCode
 
-→ an **intermediate representation (IR) layer for prompts**
-→ a **gist generator for execution-ready instructions**
+Email: [kaisar@kaisarcode.com](mailto:kaisar@kaisarcode.com)
 
----
-
-## Summary
-
-IRGist turns natural-language instructions into:
-
-* compact
-* structured
-* portable
-
-execution gists for domain-specific LLM workflows.
-
----
-
-**Author:** KaisarCode
-
-**Email:** [kaisar@kaisarcode.com](mailto:kaisar@kaisarcode.com)
-
-**Website:** https://kaisarcode.com
-
-**License:** https://www.gnu.org/licenses/gpl-3.0.html
-
-© 2026 KaisarCode
+Website: [https://kaisarcode.com](https://kaisarcode.com)
