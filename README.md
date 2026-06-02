@@ -55,15 +55,21 @@ type:<source_kind>;content:<dense_semantic_record>;rules:<optional_constraints>
 
 Source text can be long, literary, technical, or operational. IRGist does not try to preserve the full wording. It preserves the information needed for later use.
 
-Example compression result for a literary story:
+Original:
 
 ```text
-type:microrrelato;content:"Los ojos":narrador viaja en subte/metro durante rutina alienante, describe vagón aglomerado como suspensión celular/ciudad-máquina; desea inconsciencia y liberación de un Dios oculto; percibe a un niño de ojos celestes desmesurados aterrorizado mirando por la primera ventana hacia los rieles; nadie más lo nota porque pasajeros están absorbidos por pantallas/publicidad/noticias/recuerdos electrónicos; narrador teme y vuelve a mirar, ve en el niño apocalipsis/destrucción/muerte; al girar hacia el túnel, los rieles se transfiguran en serpientes y aparece el reflejo de otra formación que invade/confunde los rieles, convertido en visión mítica de una colosal KUR con escamas/fauces; se oyen gritos de los ya muertos mientras el niño sigue despierto y el narrador queda atrapado en la visión del miedo; final: "¡Este... es el final del trayecto!"
+Project rules: read local instructions before work, make the smallest valid change, avoid new dependencies unless approved, keep tools local and inspectable, do not use network services, preserve user files, write English documentation, run validation before marking work complete, and keep command output concise. Shell tools must read stdin, write data to stdout, diagnostics to stderr, and return nonzero on error. Markdown files must have one H1, wrapped URLs, no consecutive blank lines, and a trailing newline.
 ```
 
-That record is not the story. It is a dense semantic substitute for context reuse. Another model can still explain the narrative structure, symbols, entities, conflict, and ending without receiving the full original text.
+Compressed:
 
-In practice, this kind of record can reduce a source from about 1,261 tokens to about 253 tokens while keeping the core semantics available for later reasoning.
+```text
+type:project_rules;content:read_local_instructions_first,make_smallest_valid_change,avoid_new_deps_without_approval,keep_tools_local_inspectable,no_network_services,preserve_user_files,write_english_docs,validate_before_complete,keep_output_concise;rules:shell_stdin_input_stdout_data_stderr_diag_nonzero_error,markdown_one_h1_wrapped_urls_no_consecutive_blank_lines_trailing_newline
+```
+
+That record is not the original document. It is a dense semantic substitute for context reuse. Another model can still apply the operational rules without receiving the full source text.
+
+In practice, this kind of record can reduce large bootstrap instructions from a significant share of the input context to a much smaller memory record while keeping the behavior-changing rules available for later reasoning.
 
 ## Use Cases
 
