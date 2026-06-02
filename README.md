@@ -58,18 +58,18 @@ Source text can be long, literary, technical, or operational. IRGist does not tr
 Original:
 
 ```text
-Project rules: read local instructions before work, make the smallest valid change, avoid new dependencies unless approved, keep tools local and inspectable, do not use network services, preserve user files, write English documentation, run validation before marking work complete, and keep command output concise. Shell tools must read stdin, write data to stdout, diagnostics to stderr, and return nonzero on error. Markdown files must have one H1, wrapped URLs, no consecutive blank lines, and a trailing newline.
+Hi, thanks a lot for helping with this. I know this is probably simple, but I want to explain it carefully so there is no confusion. We are preparing a small team note for a local documentation workflow. The main thing is that every document should be written in English, should use one clear title at the top, and should avoid duplicated sections. Also, please do not add cloud services, analytics, remote APIs, tracking pixels, or anything that sends data outside the machine. The files should stay plain text because we want them to be easy to read, diff, search, and edit later. If something is unclear, ask one short question instead of guessing. This is important because guessing usually creates more cleanup work. In general, keep the final result short and practical. Do not add extra features, do not reorganize unrelated files, and do not introduce new dependencies unless someone explicitly approves them first. Again, the goal is just a clean local documentation workflow, nothing fancy.
 ```
 
 Compressed:
 
 ```text
-type:project_rules;content:read_local_instructions_first,make_smallest_valid_change,avoid_new_deps_without_approval,keep_tools_local_inspectable,no_network_services,preserve_user_files,write_english_docs,validate_before_complete,keep_output_concise;rules:shell_stdin_input_stdout_data_stderr_diag_nonzero_error,markdown_one_h1_wrapped_urls_no_consecutive_blank_lines_trailing_newline
+type:instruction;content:local doc workflow rules: English only, one title per doc, no duplicate sections, plain text files, no cloud/analytics/remote APIs/tracking/external data;rules:no new deps without approval, no extra features, no unrelated file changes, ask one question if unclear instead of guessing, keep output short and practical
 ```
 
 That record is not the original document. It is a dense semantic substitute for context reuse. Another model can still apply the operational rules without receiving the full source text.
 
-In practice, this kind of record can reduce large bootstrap instructions from a significant share of the input context to a much smaller memory record while keeping the behavior-changing rules available for later reasoning.
+Using Claude's tokenizer as a reference, this example is about 199 tokens before compression and about 71 tokens after compression, about a 64% reduction, while keeping the behavior-changing rules available for later reasoning.
 
 ## Use Cases
 
@@ -115,10 +115,6 @@ IRGist 2.0 generalizes the project into semantic compression for arbitrary text.
 
 ## License
 
-IRGist is released under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html).
+[![GPLv3](https://www.gnu.org/graphics/gplv3-127x51.png)](https://www.gnu.org/licenses/gpl-3.0.html)
 
-Author: KaisarCode
-
-Email: [kaisar@kaisarcode.com](mailto:kaisar@kaisarcode.com)
-
-Website: [https://kaisarcode.com](https://kaisarcode.com)
+This project is distributed under the **GNU General Public License version 3 (GPLv3)**.
