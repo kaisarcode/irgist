@@ -96,6 +96,8 @@ IRGist is not a traditional summary. A summary explains what text is about. An I
 
 IRGist is not a strict parser or formal DSL. The format is intentionally simple because the target runtime is an LLM, not a rigid compiler.
 
+TRGIST is not infalible, depending on the model in which is being processed results might vary.
+
 ## Design Principles
 
 * preserve useful meaning, not wording
